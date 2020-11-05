@@ -125,6 +125,10 @@ Si lo que se desea es obtener la matriz de transformación entre el espacio loca
 del objeto Camera.  
   
 ### 16.- Cómo puedes obtener la matriz para cambiar al sistema de referencia de vista  
+  
+Para obtener la matriz del sistema de referencia de vista (la cámara) a partir del sistema
+de coordenadas mundial, podemos usar el atributo *worldToCameraMatrix*.  
+Como su nombre indica, nos devuelve la matriz de transformación necesaria para el cambio de sistema deseado.  
 
 ### 17.- Especifica la matriz de la proyección usado en un instante de la ejecución del ejercicio 1 de la práctica 1
 El código sería el siguiente  
