@@ -3,7 +3,7 @@
 ### 1.- Qué funciones se pueden usar en los scripts de Unity para llevar a cabo traslaciones, rotaciones y escalados.  
   
   Las funciones de traslación, rotación y escalado se aplican sobre la componente transform de un gameObject, así que primero debemos obtenerlo:  
-  ```
+  ```c#
         Transform tf = GetComponent<Transform>()
   ```  
   Posteriormente podemos usar los siguientes métodos:  
@@ -15,18 +15,18 @@
 ### 2.- ¿Cómo duplicarías el tamaño de un objeto en un script?  
 
   Primero obtenemos su componente transform:  
-  ```
+  ```c#
         Transform tf = GetComponent<Transform>()
   ```  
   Y posteriormente multiplicamos su componente localScale por dos:  
-  ```  
+  ```c#  
         Vector3 myVector = new Vector3(2.0f, 2.0f, 2.0f)
         tf.localScale *= myVector
   ```  
 ### 3.- ¿Cómo situarías un objeto en la posición (3, 5, 1)  
 
   La forma más sencilla es modificar su componente tranform. Esto solo se debe hacer si el objeto no obedece al motor de físicas (es decir, no tiene una comopnente rigidBody o, si la tiene, es kinematic). Si no se cumpliera esto, habría que aplciarle una fuerza para lograr ponerlo en esta posición (bastante complejo si queremos una posición exacta). Como no se especifica, asumiré que es el primer escenario  
-  ```  
+  ```c#  
     Transform tf = GetComponent<Transform>();
     Vector3 myVector = new Vector3(3.0f, 5.0f, 1.0f)
     tf.position = myVector  
@@ -35,7 +35,7 @@
 
 ### 4.- ¿Cómo trasladarías 3m en cada uno de los jees y luego lo rotas 30º alrededor del eje Y?  
 
-```  
+```c#  
   Transform tf = GetComponent<Transform>();
   Vector3 translationVector = new Vector3(3.0f, 3.0f, 3.0f);
   tf.translate(translationVector);
@@ -43,7 +43,7 @@
 ```  
 
 ### 5.- ¿Cómo rotarías un objeto sobre el eje (1,1,1)?  
-``` 
+```c# 
   Transform tf = GetComponent<Transform>();
   Vector3 rotateAxis = new Vector3(1.0f, 1.0f, 1.0f);
   float angle = NUMBER;
@@ -69,7 +69,7 @@ Camera.
 El ángulo de la cámara se modifica con el atributo fieldOfView de la clase Camera.  
 Cabe destacar que esta es el ángulo vertical, el horizontal depende del ratio de aspecto de la ventana (viewport's aspect ratio).
 Entonces, modificando esta propiedad podemos obtener un mayor o menor ángulo.  
-```
+```c#
     // Modificamos el ángulo de la cámara principal
     Camera m_MainCamera = Camera.main;
     m_MainCamera.fieldOfView = 120.0f;  
@@ -102,7 +102,7 @@ realiza una proyección en persepectiva, 3D.
 ### 12.- Especifica la rotación de los apartados 4 y 6 con la utilidad quaternion.  
 
 Rotar 30º alrededor del eje Y  
-```  
+```c#  
   Transform tf = GetComponent<Transform>();
   tf.rotation = Quaternion.AngleAxis(30, Vector3.up);  
 ```  
@@ -132,7 +132,7 @@ Como su nombre indica, nos devuelve la matriz de transformación necesaria para 
 
 ### 17.- Especifica la matriz de la proyección usado en un instante de la ejecución del ejercicio 1 de la práctica 1
 El código sería el siguiente  
-```  
+```c#  
   Camera m_MainCamera = Camera.main;  
   Debug.Log(m_MainCamera.previousViewProjectionMatrix);
 ```
@@ -162,7 +162,7 @@ Matriz de modelo y vista de la escena del ejecicio 1 de la p1.
 ### 19.- Aplica una rotación en el start de uno de los objetos de la escena y muestra la matriz de cambio al sistema de referencias mundial  
   
 El código del método start de un objeto sería el siguiente:  
-```  
+```c#  
   Transform tf = GetComponent<Transform>();
   tf.rotation = Quaternion.AngleAxis(50, Vector3.up);
   Debug.Log(tf.localToWorldMatrix);  
