@@ -3,7 +3,7 @@
 ### 1.- Qué funciones se pueden usar en los scripts de Unity para llevar a cabo traslaciones, rotaciones y escalados.  
   
   Las funciones de traslación, rotación y escalado se aplican sobre la componente transform de un gameObject, así que primero debemos obtenerlo:  
-  ```c#
+  ```
         Transform tf = GetComponent<Transform>()
   ```  
   Posteriormente podemos usar los siguientes métodos:  
@@ -15,18 +15,18 @@
 ### 2.- ¿Cómo duplicarías el tamaño de un objeto en un script?  
 
   Primero obtenemos su componente transform:  
-  ```c#
+  ```
         Transform tf = GetComponent<Transform>()
   ```  
   Y posteriormente multiplicamos su componente localScale por dos:  
-  ```c#
+  ```  
         Vector3 myVector = new Vector3(2.0f, 2.0f, 2.0f)
         tf.localScale *= myVector
   ```  
 ### 3.- ¿Cómo situarías un objeto en la posición (3, 5, 1)  
 
   La forma más sencilla es modificar su componente tranform. Esto solo se debe hacer si el objeto no obedece al motor de físicas (es decir, no tiene una comopnente rigidBody o, si la tiene, es kinematic). Si no se cumpliera esto, habría que aplciarle una fuerza para lograr ponerlo en esta posición (bastante complejo si queremos una posición exacta). Como no se especifica, asumiré que es el primer escenario  
-  ```c#  
+  ```  
     Transform tf = GetComponent<Transform>();
     Vector3 myVector = new Vector3(3.0f, 5.0f, 1.0f)
     tf.position = myVector  
@@ -35,7 +35,7 @@
 
 ### 4.- ¿Cómo trasladarías 3m en cada uno de los jees y luego lo rotas 30º alrededor del eje Y?  
 
-```c#  
+```  
   Transform tf = GetComponent<Transform>();
   Vector3 translationVector = new Vector3(3.0f, 3.0f, 3.0f);
   tf.translate(translationVector);
@@ -43,7 +43,7 @@
 ```  
 
 ### 5.- ¿Cómo rotarías un objeto sobre el eje (1,1,1)?  
-```c# 
+``` 
   Transform tf = GetComponent<Transform>();
   Vector3 rotateAxis = new Vector3(1.0f, 1.0f, 1.0f);
   float angle = NUMBER;
@@ -69,7 +69,7 @@ Camera.
 El ángulo de la cámara se modifica con el atributo fieldOfView de la clase Camera.  
 Cabe destacar que esta es el ángulo vertical, el horizontal depende del ratio de aspecto de la ventana (viewport's aspect ratio).
 Entonces, modificando esta propiedad podemos obtener un mayor o menor ángulo.  
-```c#
+```
     // Modificamos el ángulo de la cámara principal
     Camera m_MainCamera = Camera.main;
     m_MainCamera.fieldOfView = 120.0f;  
@@ -102,7 +102,7 @@ realiza una proyección en persepectiva, 3D.
 ### 12.- Especifica la rotación de los apartados 4 y 6 con la utilidad quaternion.  
 
 Rotar 30º alrededor del eje Y  
-```c#  
+```  
   Transform tf = GetComponent<Transform>();
   tf.rotation = Quaternion.AngleAxis(30, Vector3.up);  
 ```  
@@ -125,14 +125,14 @@ Si lo que se desea es obtener la matriz de transformación entre el espacio loca
 del objeto Camera.  
   
 ### 16.- Cómo puedes obtener la matriz para cambiar al sistema de referencia de vista  
-  
+
 Para obtener la matriz del sistema de referencia de vista (la cámara) a partir del sistema
 de coordenadas mundial, podemos usar el atributo *worldToCameraMatrix*.  
-Como su nombre indica, nos devuelve la matriz de transformación necesaria para el cambio de sistema deseado.  
+Como su nombre indica, nos devuelve la matriz de transformación necesaria para el cambio de sistema deseado.
 
 ### 17.- Especifica la matriz de la proyección usado en un instante de la ejecución del ejercicio 1 de la práctica 1
 El código sería el siguiente  
-```c#  
+```  
   Camera m_MainCamera = Camera.main;  
   Debug.Log(m_MainCamera.previousViewProjectionMatrix);
 ```
@@ -146,10 +146,23 @@ El código sería el siguiente
   
 ### 18.- Especifica la matriz de modelo y vista de la escena del ejercicio 1 de la práctica 1.  
 
+La matriz de modelo y vista se obtiene mediante el producto entre varias matrices.  
+La multiplicación que hay que realizar es *localToWorldMAtrix x worldtoCamera x projectionMatrix*. Para entenderla, 
+podemos decir que cogemos los puntos del sistema de referencia local y los pasamos al sistema de referencia global 
+(localToWorldMatrix). Posteriormente estos puntos los pasamos a coordenadas de la cámara mediante la matriz worldToCamera y, finalmente, obtenemos cómo se proyectarían estos puntos (cómo se representarán finalmente en la pantalla) mediante la última matriz.  
+Matriz de modelo y vista de la escena del ejecicio 1 de la p1.  
+
+| | | | |
+| ------------- |:-------------:| -----:| -----:|
+| 0.00000  | 0.00000  | 14.46500 | 0.00000 |
+| 0.00000  | 2.55487  | -3.00519 | 0.16350 |
+| 0.00000  | 0.47184  | -28.5013 | -0.8853 |
+| 0.00000  | 0.00000  | -1.00000 | 0.00000 |
+
 ### 19.- Aplica una rotación en el start de uno de los objetos de la escena y muestra la matriz de cambio al sistema de referencias mundial  
   
 El código del método start de un objeto sería el siguiente:  
-```c# 
+```  
   Transform tf = GetComponent<Transform>();
   tf.rotation = Quaternion.AngleAxis(50, Vector3.up);
   Debug.Log(tf.localToWorldMatrix);  
@@ -164,4 +177,11 @@ El código del método start de un objeto sería el siguiente:
    
 
 
-### 20.- ¿Como puedes calcular las coordenadas del sistema de referencia de un objeto con las siguientes propiedades del Transform? Position (3, 1, 1), Rotation (45, 0, 45)
+### 20.- ¿Como puedes calcular las coordenadas del sistema de referencia de un objeto con las siguientes propiedades del Transform? Position (3, 1, 1), Rotation (45, 0, 45)  
+
+Para calcular las coordenadas de un objeto teniendo su transform, debemos usar la información contenida
+en este componente junto con la matriz que nos permite cambiar desde este sistema de referencia local al 
+sistema de referencia global.  
+Esto se hace mediante la propiedad del transform *localToWorldMatrix*. Posteriormente, multiplicando esta 
+información de manera adecuada obtenemos las coordenadas del sistema de referencia.
+
